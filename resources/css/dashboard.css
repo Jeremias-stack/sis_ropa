@@ -1,0 +1,451 @@
+/* =========================================================
+   DASHBOARD
+   POS - TIENDA DE ROPA
+   ========================================================= */
+
+.dashboard-page {
+    padding: 34px;
+    animation: dashboardEnter 0.4s ease;
+}
+
+@keyframes dashboardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
+.dashboard-welcome {
+    margin-bottom: 28px;
+}
+
+.dashboard-eyebrow {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #8b8b93;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.dashboard-title {
+    margin: 0 0 5px;
+
+    color: #18181b;
+
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 800;
+
+    letter-spacing: -0.04em;
+}
+
+.dashboard-subtitle {
+    margin: 0;
+
+    color: #71717a;
+
+    font-size: 0.92rem;
+}
+
+
+/* =========================================================
+   TARJETAS ESTADÍSTICAS
+   ========================================================= */
+
+.dashboard-stat-card {
+    position: relative;
+
+    height: 100%;
+
+    padding: 22px;
+
+    overflow: hidden;
+
+    border: 1px solid #ececef;
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 7px 24px rgba(0, 0, 0, 0.045);
+
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease;
+}
+
+.dashboard-stat-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #dedee3;
+
+    box-shadow:
+        0 13px 30px rgba(0, 0, 0, 0.075);
+}
+
+.dashboard-stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 22px;
+}
+
+.dashboard-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    border-radius: 13px;
+
+    background: #f4f4f5;
+
+    color: #18181b;
+
+    font-size: 1.1rem;
+}
+
+.dashboard-stat-icon.danger {
+    background: #fff1f2;
+    color: #dc2626;
+}
+
+.dashboard-stat-icon.success {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.dashboard-stat-icon.info {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.dashboard-stat-icon.warning {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.dashboard-stat-value {
+    margin: 0;
+
+    color: #18181b;
+
+    font-size: 1.65rem;
+    font-weight: 800;
+
+    letter-spacing: -0.04em;
+}
+
+.dashboard-stat-label {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #71717a;
+
+    font-size: 0.77rem;
+    font-weight: 550;
+}
+
+
+/* =========================================================
+   CONTENEDORES
+   ========================================================= */
+
+.dashboard-panel {
+    height: 100%;
+
+    overflow: hidden;
+
+    border: 1px solid #ececef;
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 7px 24px rgba(0, 0, 0, 0.045);
+}
+
+.dashboard-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 14px;
+
+    padding: 20px 22px;
+
+    border-bottom: 1px solid #eeeeef;
+}
+
+.dashboard-panel-title {
+    margin: 0;
+
+    color: #27272a;
+
+    font-size: 0.95rem;
+    font-weight: 750;
+}
+
+.dashboard-panel-subtitle {
+    margin: 3px 0 0;
+
+    color: #8b8b93;
+
+    font-size: 0.72rem;
+}
+
+
+/* =========================================================
+   PRODUCTOS RECIENTES
+   ========================================================= */
+
+.dashboard-product {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 14px 22px;
+
+    border-bottom: 1px solid #f1f1f2;
+
+    transition: background-color 0.2s ease;
+}
+
+.dashboard-product:last-child {
+    border-bottom: 0;
+}
+
+.dashboard-product:hover {
+    background: #fafafa;
+}
+
+.dashboard-product-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background: #f4f4f5;
+
+    object-fit: cover;
+}
+
+.dashboard-product-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.dashboard-product-name {
+    display: block;
+
+    overflow: hidden;
+
+    color: #27272a;
+
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dashboard-product-meta {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #929298;
+
+    font-size: 0.69rem;
+}
+
+.dashboard-product-price {
+    color: #18181b;
+
+    font-size: 0.82rem;
+    font-weight: 750;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACCESOS RÁPIDOS
+   ========================================================= */
+
+.dashboard-actions {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 12px;
+
+    padding: 20px;
+}
+
+.dashboard-action {
+    display: flex;
+    flex-direction: column;
+
+    gap: 13px;
+
+    min-height: 120px;
+
+    padding: 17px;
+
+    border: 1px solid #ececef;
+    border-radius: 14px;
+
+    background: #fafafa;
+
+    color: #27272a;
+
+    text-decoration: none;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dashboard-action:hover {
+    border-color: #d4d4d8;
+
+    background: #ffffff;
+
+    color: #18181b;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 39px;
+    height: 39px;
+
+    border-radius: 11px;
+
+    background: #18181b;
+
+    color: #ffffff;
+
+    font-size: 1rem;
+}
+
+.dashboard-action-title {
+    display: block;
+
+    font-size: 0.81rem;
+    font-weight: 700;
+}
+
+.dashboard-action-description {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #8b8b93;
+
+    font-size: 0.68rem;
+}
+
+
+/* =========================================================
+   ALERTA STOCK
+   ========================================================= */
+
+.dashboard-stock-alert {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 24px;
+
+    padding: 14px 17px;
+
+    border: 1px solid #fecaca;
+    border-radius: 13px;
+
+    background: #fef2f2;
+
+    color: #991b1b;
+
+    font-size: 0.8rem;
+}
+
+.dashboard-stock-alert i {
+    font-size: 1.1rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+    .dashboard-page {
+        padding: 26px 22px;
+    }
+
+}
+
+
+@media (max-width: 575.98px) {
+
+    .dashboard-page {
+        padding: 22px 16px;
+    }
+
+    .dashboard-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-stat-card {
+        padding: 18px;
+    }
+
+    .dashboard-product {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+}

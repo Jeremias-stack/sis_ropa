@@ -1,9 +1,163 @@
-@import 'tailwindcss';
+/* =========================================================
+   ESTILOS GENERALES DEL SISTEMA
+   POS - TiENDA DE ROPA
+   ========================================================= */
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+@import './navigation.css';
+@import './dashboard.css';
+@import './productos.css';
+@import './producto-form.css';
+@import './clientes.css';
+@import './cliente-form.css';
+@import './pos.css';
+@import './factura.css';
+@import './weather.css';
+@import './login.css';
+@import './auth.css';
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+:root {
+    --color-primary: #18181b;
+    --color-primary-hover: #000000;
+
+    --color-background: #f6f7f9;
+    --color-surface: #ffffff;
+
+    --color-text: #18181b;
+    --color-muted: #71717a;
+
+    --color-border: #e4e4e7;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+    --transition: 0.22s ease;
+}
+
+
+/* =========================================================
+   GENERAL
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    background-color: var(--color-background);
+    color: var(--color-text);
+
+    font-family: 'Poppins', sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================================
+   INPUTS Y SELECT
+   ========================================================= */
+
+.form-control,
+.form-select {
+    min-height: 46px;
+
+    border: 1px solid var(--color-border);
+    border-radius: 11px;
+
+    background-color: #ffffff;
+
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background-color var(--transition);
+}
+
+.form-control:hover,
+.form-select:hover {
+    border-color: #c5c5cb;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #71717a;
+
+    background-color: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(24, 24, 27, 0.08);
+}
+
+
+/* =========================================================
+   TARJETAS
+   ========================================================= */
+
+.card {
+    border-radius: var(--radius-lg);
+}
+
+
+/* =========================================================
+   ANIMACIÓN GENERAL
+   ========================================================= */
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page-animation {
+    animation: pageEnter 0.4s ease;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .container {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
 }

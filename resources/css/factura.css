@@ -1,0 +1,529 @@
+/* =========================================================
+   FACTURA / RECIBO
+   POS - TIENDA DE ROPA
+   ========================================================= */
+
+.factura-page {
+    padding: 34px;
+    animation: facturaEnter 0.4s ease;
+}
+
+@keyframes facturaEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   ENCABEZADO EXTERIOR
+   ========================================================= */
+
+.factura-page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 950px;
+    margin: 0 auto 24px;
+}
+
+.factura-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #929298;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.factura-page-title {
+    margin: 0 0 5px;
+    color: #18181b;
+    font-size: clamp(1.7rem, 4vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.factura-page-subtitle {
+    margin: 0;
+    color: #71717a;
+    font-size: 0.82rem;
+}
+
+.factura-header-actions {
+    display: flex;
+    gap: 9px;
+}
+
+.factura-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    padding: 9px 15px;
+    border: 1px solid #dedee3;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #52525b;
+    font-size: 0.73rem;
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.factura-action:hover {
+    background: #f4f4f5;
+    color: #18181b;
+}
+
+.factura-action.primary {
+    border-color: #18181b;
+    background: #18181b;
+    color: #ffffff;
+}
+
+.factura-action.primary:hover {
+    background: #000000;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MENSAJE DE ÉXITO
+   ========================================================= */
+
+.factura-success {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 950px;
+    margin: 0 auto 20px;
+    padding: 13px 16px;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    background: #f0fdf4;
+    color: #166534;
+    font-size: 0.75rem;
+    font-weight: 550;
+}
+
+
+/* =========================================================
+   DOCUMENTO
+   ========================================================= */
+
+.factura-document {
+    max-width: 950px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid #e4e4e7;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.055);
+}
+
+
+/* =========================================================
+   EMPRESA
+   ========================================================= */
+
+.factura-company {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 30px;
+    border-bottom: 1px solid #eeeeef;
+}
+
+.factura-company-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.factura-company-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+    background: #18181b;
+    color: #ffffff;
+    font-size: 1.3rem;
+}
+
+.factura-company-name {
+    margin: 0;
+    color: #18181b;
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.factura-company-type {
+    display: block;
+    margin-top: 2px;
+    color: #929298;
+    font-size: 0.68rem;
+}
+
+.factura-number-area {
+    text-align: right;
+}
+
+.factura-label-small {
+    display: block;
+    margin-bottom: 4px;
+    color: #929298;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.factura-number {
+    color: #18181b;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   INFORMACIÓN
+   ========================================================= */
+
+.factura-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #eeeeef;
+}
+
+.factura-info-box {
+    padding: 20px 30px;
+    border-right: 1px solid #eeeeef;
+}
+
+.factura-info-box:last-child {
+    border-right: 0;
+}
+
+.factura-info-value {
+    display: block;
+    color: #3f3f46;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.factura-info-secondary {
+    display: block;
+    margin-top: 3px;
+    color: #929298;
+    font-size: 0.64rem;
+}
+
+
+/* =========================================================
+   TABLA
+   ========================================================= */
+
+.factura-products {
+    padding: 25px 30px;
+}
+
+.factura-section-title {
+    margin: 0 0 15px;
+    color: #27272a;
+    font-size: 0.8rem;
+    font-weight: 750;
+}
+
+.factura-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.factura-table th {
+    padding: 11px 10px;
+    border-bottom: 1px solid #dedee3;
+    color: #71717a;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.factura-table td {
+    padding: 13px 10px;
+    border-bottom: 1px solid #f0f0f2;
+    color: #52525b;
+    font-size: 0.7rem;
+}
+
+.factura-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.factura-product-name {
+    display: block;
+    color: #27272a;
+    font-weight: 700;
+}
+
+.factura-product-code {
+    display: block;
+    margin-top: 2px;
+    color: #a1a1aa;
+    font-size: 0.61rem;
+}
+
+.factura-text-right {
+    text-align: right !important;
+}
+
+
+/* =========================================================
+   PARTE INFERIOR
+   ========================================================= */
+
+.factura-bottom {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 30px;
+    padding: 0 30px 30px;
+}
+
+.factura-payment-box {
+    padding: 18px;
+    border: 1px solid #eeeeef;
+    border-radius: 13px;
+    background: #fafafa;
+}
+
+.factura-payment-method {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #27272a;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.factura-payment-method i {
+    color: #71717a;
+    font-size: 1rem;
+}
+
+.factura-payment-text {
+    margin: 10px 0 0;
+    color: #929298;
+    font-size: 0.64rem;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   TOTALES
+   ========================================================= */
+
+.factura-totals {
+    width: 100%;
+}
+
+.factura-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 7px 0;
+    color: #71717a;
+    font-size: 0.7rem;
+}
+
+.factura-total-row.discount {
+    color: #16a34a;
+}
+
+.factura-total-row.final {
+    margin-top: 9px;
+    padding-top: 14px;
+    border-top: 1px solid #d4d4d8;
+    color: #18181b;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   QR
+   ========================================================= */
+
+.factura-qr-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 22px 30px;
+    border-top: 1px solid #eeeeef;
+    background: #fafafa;
+}
+
+.factura-qr-info {
+    max-width: 500px;
+}
+
+.factura-qr-title {
+    margin: 0 0 5px;
+    color: #27272a;
+    font-size: 0.76rem;
+    font-weight: 750;
+}
+
+.factura-qr-description {
+    margin: 0;
+    color: #929298;
+    font-size: 0.63rem;
+    line-height: 1.6;
+}
+
+.factura-qr-image {
+    width: 105px;
+    height: 105px;
+    padding: 5px;
+    border: 1px solid #e4e4e7;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   PIE
+   ========================================================= */
+
+.factura-footer {
+    padding: 17px 30px;
+    border-top: 1px solid #eeeeef;
+    color: #a1a1aa;
+    font-size: 0.6rem;
+    text-align: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 767.98px) {
+    .factura-page {
+        padding: 24px 16px;
+    }
+
+    .factura-page-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .factura-header-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .factura-company {
+        flex-direction: column;
+    }
+
+    .factura-number-area {
+        text-align: left;
+    }
+
+    .factura-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .factura-info-box {
+        border-right: 0;
+        border-bottom: 1px solid #eeeeef;
+    }
+
+    .factura-info-box:last-child {
+        border-bottom: 0;
+    }
+
+    .factura-products {
+        padding: 20px 16px;
+        overflow-x: auto;
+    }
+
+    .factura-table {
+        min-width: 600px;
+    }
+
+    .factura-bottom {
+        grid-template-columns: 1fr;
+        padding: 0 16px 20px;
+    }
+
+    .factura-qr-section {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px 16px;
+    }
+}
+
+
+/* =========================================================
+   IMPRESIÓN / GUARDAR COMO PDF
+   ========================================================= */
+
+@media print {
+    @page {
+        margin: 12mm;
+    }
+
+    body {
+        background: #ffffff !important;
+    }
+
+    .app-sidebar,
+    .sidebar-overlay,
+    .app-topbar,
+    .factura-page-header,
+    .factura-success {
+        display: none !important;
+    }
+
+    .app-main {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .app-content,
+    .factura-page {
+        padding: 0 !important;
+    }
+
+    .factura-document {
+        max-width: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .factura-company,
+    .factura-products,
+    .factura-bottom,
+    .factura-qr-section {
+        break-inside: avoid;
+    }
+}

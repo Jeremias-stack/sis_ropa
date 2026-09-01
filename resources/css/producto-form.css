@@ -1,0 +1,559 @@
+/* =========================================================
+   FORMULARIOS DE PRODUCTOS
+   POS - Tienda de Ropa
+   ========================================================= */
+
+
+/* =========================================================
+   CONTENEDOR
+   ========================================================= */
+
+.producto-form-page {
+    animation: productoFormEntrada 0.4s ease;
+}
+
+@keyframes productoFormEntrada {
+
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
+.producto-form-header {
+    margin-bottom: 28px;
+}
+
+.producto-form-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 6px;
+
+    color: #8b8b93;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.producto-form-title {
+    margin: 0 0 6px;
+
+    color: #18181b;
+
+    font-size: clamp(1.9rem, 4vw, 2.5rem);
+    font-weight: 800;
+
+    letter-spacing: -0.04em;
+}
+
+.producto-form-subtitle {
+    margin: 0;
+
+    color: #71717a;
+
+    font-size: 0.94rem;
+
+    max-width: 620px;
+}
+
+
+/* =========================================================
+   TARJETA PRINCIPAL
+   ========================================================= */
+
+.producto-form-card {
+    overflow: hidden;
+
+    border: 1px solid rgba(0, 0, 0, 0.055);
+    border-radius: 20px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.065);
+}
+
+
+/* =========================================================
+   SECCIONES
+   ========================================================= */
+
+.producto-form-section {
+    padding: 28px;
+}
+
+.producto-form-section + .producto-form-section {
+    border-top: 1px solid #eeeeef;
+}
+
+.producto-form-section-title {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+
+    color: #27272a;
+
+    font-size: 1rem;
+    font-weight: 750;
+}
+
+.producto-form-section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #18181b;
+    color: white;
+
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   LABELS
+   ========================================================= */
+
+.producto-form-label {
+    margin-bottom: 8px;
+
+    color: #3f3f46;
+
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.producto-form-required {
+    color: #dc3545;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.producto-form-input,
+.producto-form-select,
+.producto-form-textarea {
+    width: 100%;
+
+    border: 1px solid #dedee3;
+    border-radius: 11px;
+
+    background-color: #fafafa;
+
+    color: #27272a;
+
+    font-size: 0.9rem;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.producto-form-input,
+.producto-form-select {
+    min-height: 48px;
+}
+
+.producto-form-input {
+    padding: 0 14px;
+}
+
+.producto-form-select {
+    padding-left: 14px;
+}
+
+.producto-form-textarea {
+    min-height: 120px;
+
+    padding: 13px 14px;
+
+    resize: vertical;
+}
+
+.producto-form-input:hover,
+.producto-form-select:hover,
+.producto-form-textarea:hover {
+    border-color: #c3c3c9;
+}
+
+.producto-form-input:focus,
+.producto-form-select:focus,
+.producto-form-textarea:focus {
+    border-color: #52525b;
+
+    background: #ffffff;
+
+    outline: none;
+
+    box-shadow:
+        0 0 0 4px rgba(24, 24, 27, 0.07);
+}
+
+
+/* =========================================================
+   INPUT GROUP PRECIO
+   ========================================================= */
+
+.producto-precio-group {
+    display: flex;
+}
+
+.producto-precio-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 47px;
+
+    border: 1px solid #dedee3;
+    border-right: 0;
+
+    border-radius: 11px 0 0 11px;
+
+    background: #f1f1f3;
+
+    color: #52525b;
+
+    font-weight: 700;
+}
+
+.producto-precio-group .producto-form-input {
+    border-radius: 0 11px 11px 0;
+}
+
+
+/* =========================================================
+   TEXTOS DE AYUDA
+   ========================================================= */
+
+.producto-form-help {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #929298;
+
+    font-size: 0.73rem;
+}
+
+
+/* =========================================================
+   ERRORES
+   ========================================================= */
+
+.producto-form-input.is-invalid,
+.producto-form-select.is-invalid,
+.producto-form-textarea.is-invalid {
+    border-color: #dc3545;
+}
+
+.producto-form-error {
+    margin-top: 6px;
+
+    color: #dc3545;
+
+    font-size: 0.76rem;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   IMAGEN
+   ========================================================= */
+
+.producto-image-upload {
+    position: relative;
+
+    padding: 22px;
+
+    border: 2px dashed #d5d5da;
+    border-radius: 14px;
+
+    background: #fafafa;
+
+    text-align: center;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.producto-image-upload:hover {
+    border-color: #8b8b93;
+
+    background: #f7f7f8;
+
+    transform: translateY(-1px);
+}
+
+.producto-image-icon {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 2rem;
+}
+
+.producto-image-title {
+    margin-bottom: 3px;
+
+    color: #3f3f46;
+
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.producto-image-description {
+    margin-bottom: 14px;
+
+    color: #929298;
+
+    font-size: 0.74rem;
+}
+
+
+/* =========================================================
+   SWITCH
+   ========================================================= */
+
+.producto-status-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 16px 18px;
+
+    border: 1px solid #e3e3e6;
+    border-radius: 13px;
+
+    background: #fafafa;
+}
+
+.producto-status-title {
+    margin: 0 0 3px;
+
+    color: #27272a;
+
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.producto-status-description {
+    margin: 0;
+
+    color: #8b8b93;
+
+    font-size: 0.73rem;
+}
+
+.producto-status-box .form-check-input {
+    width: 48px;
+    height: 25px;
+
+    margin: 0;
+
+    cursor: pointer;
+}
+
+.producto-status-box .form-check-input:checked {
+    border-color: #18181b;
+
+    background-color: #18181b;
+}
+
+
+/* =========================================================
+   BOTONES INFERIORES
+   ========================================================= */
+
+.producto-form-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding: 22px 28px;
+
+    border-top: 1px solid #eeeeef;
+
+    background: #fafafa;
+}
+
+.btn-producto-cancel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+
+    padding: 0 20px;
+
+    border: 1px solid #d4d4d8;
+    border-radius: 11px;
+
+    background: white;
+    color: #52525b;
+
+    font-weight: 650;
+
+    text-decoration: none;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.btn-producto-cancel:hover {
+    border-color: #a1a1aa;
+
+    background: #f4f4f5;
+    color: #18181b;
+
+    transform: translateY(-1px);
+}
+
+.btn-producto-save {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+
+    padding: 0 23px;
+
+    border: 1px solid #18181b;
+    border-radius: 11px;
+
+    background: #18181b;
+    color: white;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.12);
+
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.btn-producto-save:hover {
+    border-color: black;
+
+    background: black;
+    color: white;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 9px 20px rgba(0, 0, 0, 0.16);
+}
+
+.btn-producto-save:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================================================
+   IMAGEN ACTUAL - EDICIÓN
+   ========================================================= */
+
+.producto-current-image {
+    width: 145px;
+    height: 145px;
+
+    border-radius: 16px;
+
+    object-fit: cover;
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .producto-form-page {
+        padding-top: 24px !important;
+        padding-bottom: 30px !important;
+    }
+
+    .producto-form-header {
+        margin-bottom: 22px;
+    }
+
+    .producto-form-section {
+        padding: 20px;
+    }
+
+    .producto-form-actions {
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        padding: 18px 20px;
+    }
+
+    .btn-producto-cancel,
+    .btn-producto-save {
+        width: 100%;
+    }
+
+    .producto-status-box {
+        align-items: flex-start;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .producto-form-card {
+        border-radius: 15px;
+    }
+
+    .producto-form-section {
+        padding: 18px 16px;
+    }
+
+    .producto-form-section-title {
+        font-size: 0.92rem;
+    }
+
+}

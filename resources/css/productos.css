@@ -1,0 +1,660 @@
+/* =========================================================
+   PRODUCTOS / INVENTARIO
+   POS - Tienda de Ropa
+   ========================================================= */
+
+
+/* =========================================================
+   PÁGINA
+   ========================================================= */
+
+.productos-page {
+    animation: productosEntrada 0.4s ease;
+}
+
+@keyframes productosEntrada {
+
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.productos-header {
+    margin-bottom: 28px;
+}
+
+.productos-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 6px;
+
+    color: #8b8b93;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.productos-title {
+    margin: 0 0 5px;
+
+    color: #18181b;
+
+    font-size: clamp(2rem, 4vw, 2.7rem);
+    font-weight: 800;
+
+    letter-spacing: -0.045em;
+}
+
+.productos-subtitle {
+    max-width: 600px;
+
+    color: #71717a;
+
+    font-size: 0.96rem;
+}
+
+
+/* =========================================================
+   BOTÓN PRINCIPAL
+   ========================================================= */
+
+.btn-producto-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+
+    padding: 0 20px;
+
+    border: 1px solid #18181b !important;
+    border-radius: 11px;
+
+    background: #18181b !important;
+    color: #ffffff !important;
+
+    font-weight: 650;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.12);
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.btn-producto-primary:hover {
+    background: #000000 !important;
+    border-color: #000000 !important;
+
+    color: white !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 22px rgba(0, 0, 0, 0.17);
+}
+
+.btn-producto-primary:active {
+    transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================================================
+   TARJETAS
+   ========================================================= */
+
+.productos-card {
+    overflow: hidden;
+
+    border: 1px solid rgba(0, 0, 0, 0.055);
+    border-radius: 18px;
+
+    background: white;
+
+    box-shadow:
+        0 7px 25px rgba(0, 0, 0, 0.055);
+
+    transition:
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+.productos-card:hover {
+    box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.075);
+}
+
+
+/* =========================================================
+   BUSCADOR
+   ========================================================= */
+
+.productos-search-card {
+    padding: 20px;
+}
+
+.productos-search-label {
+    margin-bottom: 8px;
+
+    color: #3f3f46;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.productos-search-wrapper {
+    position: relative;
+}
+
+.productos-search-icon {
+    position: absolute;
+
+    top: 50%;
+    left: 16px;
+
+    z-index: 2;
+
+    transform: translateY(-50%);
+
+    color: #a1a1aa;
+
+    pointer-events: none;
+}
+
+.productos-search {
+    width: 100%;
+    height: 48px;
+
+    padding-left: 43px;
+
+    border: 1px solid #dedee3;
+    border-radius: 11px;
+
+    background: #fafafa;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.productos-search:hover {
+    border-color: #c6c6cc;
+}
+
+.productos-search:focus {
+    border-color: #52525b;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(24, 24, 27, 0.07);
+
+    outline: none;
+}
+
+
+/* ---------- Botón Buscar ---------- */
+
+.btn-productos-search {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 48px;
+
+    padding: 0 22px;
+
+    border: 2px solid #18181b !important;
+    border-radius: 11px;
+
+    background-color: #18181b !important;
+    color: #ffffff !important;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.btn-productos-search:hover {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.17);
+}
+
+
+/* ---------- Limpiar ---------- */
+
+.btn-productos-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 48px;
+
+    padding: 0 18px;
+
+    border: 1px solid #d4d4d8;
+    border-radius: 11px;
+
+    background: white;
+    color: #52525b;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-productos-clear:hover {
+    background: #f4f4f5;
+    border-color: #a1a1aa;
+
+    color: #18181b;
+}
+
+
+/* =========================================================
+   TABLA DESKTOP
+   ========================================================= */
+
+.productos-table {
+    width: 100%;
+
+    margin: 0;
+}
+
+.productos-table thead {
+    background-color: #fafafa;
+}
+
+.productos-table thead th {
+    padding: 16px 14px;
+
+    border-bottom: 1px solid #e9e9ec;
+
+    color: #71717a;
+
+    font-size: 0.72rem;
+    font-weight: 750;
+
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.productos-table tbody td {
+    padding: 16px 14px;
+
+    border-bottom: 1px solid #f0f0f2;
+
+    vertical-align: middle;
+}
+
+.productos-table tbody tr {
+    background: white;
+
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.productos-table tbody tr:hover {
+    background-color: #fafafa;
+}
+
+.productos-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   PRODUCTO
+   ========================================================= */
+
+.producto-miniatura,
+.producto-sin-imagen {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    border-radius: 13px;
+
+    background-color: #f4f4f5;
+}
+
+.producto-miniatura {
+    object-fit: cover;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.productos-table tr:hover .producto-miniatura {
+    transform: scale(1.06);
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.producto-sin-imagen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.35rem;
+}
+
+.producto-nombre {
+    margin-bottom: 2px;
+
+    color: #18181b;
+
+    font-size: 0.94rem;
+    font-weight: 700;
+}
+
+.producto-detalle {
+    color: #8b8b93;
+
+    font-size: 0.8rem;
+}
+
+.producto-codigo {
+    color: #71717a;
+
+    font-family: monospace;
+    font-size: 0.85rem;
+}
+
+.producto-precio {
+    color: #18181b;
+
+    font-size: 0.96rem;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.producto-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACCIONES
+   ========================================================= */
+
+.producto-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 7px;
+}
+
+.producto-action-btn {
+    min-height: 36px;
+
+    padding: 6px 11px;
+
+    border-radius: 8px;
+
+    font-size: 0.78rem;
+    font-weight: 650;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+}
+
+.producto-action-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   VISTA MÓVIL
+   ========================================================= */
+
+.producto-mobile-card {
+    padding: 18px;
+
+    border-bottom: 1px solid #eeeeef;
+}
+
+.producto-mobile-card:last-child {
+    border-bottom: 0;
+}
+
+.producto-mobile-header {
+    display: flex;
+
+    gap: 13px;
+
+    margin-bottom: 16px;
+}
+
+.producto-mobile-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.producto-mobile-name {
+    margin: 0 0 3px;
+
+    color: #18181b;
+
+    font-size: 1rem;
+    font-weight: 750;
+}
+
+.producto-mobile-code {
+    color: #8b8b93;
+
+    font-size: 0.76rem;
+}
+
+.producto-mobile-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-bottom: 16px;
+}
+
+.producto-mobile-field {
+    padding: 10px 12px;
+
+    border-radius: 10px;
+
+    background-color: #f8f8f9;
+}
+
+.producto-mobile-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #96969d;
+
+    font-size: 0.68rem;
+    font-weight: 650;
+
+    text-transform: uppercase;
+}
+
+.producto-mobile-value {
+    color: #27272a;
+
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.producto-mobile-actions {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 8px;
+}
+
+.producto-mobile-actions .btn {
+    width: 100%;
+}
+
+
+/* =========================================================
+   SIN PRODUCTOS
+   ========================================================= */
+
+.productos-empty {
+    padding: 60px 20px;
+}
+
+.productos-empty-icon {
+    display: inline-block;
+
+    font-size: 3rem;
+
+    animation: productoFlotar 2.8s ease-in-out infinite;
+}
+
+@keyframes productoFlotar {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+    .productos-page {
+        padding-top: 30px !important;
+    }
+
+    .productos-header {
+        margin-bottom: 22px;
+    }
+
+}
+
+
+@media (max-width: 767.98px) {
+
+    .productos-page {
+        padding-top: 24px !important;
+        padding-bottom: 30px !important;
+    }
+
+    .productos-header {
+        align-items: stretch !important;
+    }
+
+    .productos-header .btn-producto-primary {
+        width: 100%;
+    }
+
+    .productos-search-card {
+        padding: 16px;
+    }
+
+    .productos-search-actions {
+        display: grid !important;
+
+        grid-template-columns: 1fr;
+
+        gap: 9px !important;
+    }
+
+    .productos-search-actions .btn,
+    .productos-search-actions a {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .producto-mobile-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .producto-mobile-actions {
+        grid-template-columns: 1fr;
+    }
+
+}

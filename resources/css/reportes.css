@@ -1,0 +1,492 @@
+/* =========================================================
+   REPORTES
+   POS - TIENDA DE ROPA
+   ========================================================= */
+
+.reportes-page {
+    padding: 30px;
+    animation: reportesEnter 0.4s ease;
+}
+
+@keyframes reportesEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.reportes-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.reportes-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #929298;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.reportes-title {
+    margin: 0 0 5px;
+    color: #18181b;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.reportes-subtitle {
+    margin: 0;
+    color: #71717a;
+    font-size: 0.85rem;
+}
+
+.reportes-print-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 43px;
+    padding: 9px 16px;
+    border: 1px solid #18181b;
+    border-radius: 10px;
+    background: #18181b;
+    color: #ffffff;
+    font-size: 0.74rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.reportes-print-button:hover {
+    background: #000000;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   FILTRO
+   ========================================================= */
+
+.reportes-filter {
+    margin-bottom: 22px;
+    padding: 18px;
+    border: 1px solid #e8e8eb;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.035);
+}
+
+.reportes-filter-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.reportes-filter-group {
+    flex: 1;
+}
+
+.reportes-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #52525b;
+    font-size: 0.67rem;
+    font-weight: 650;
+}
+
+.reportes-control {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 11px;
+    border: 1px solid #dedee3;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #3f3f46;
+    font-size: 0.72rem;
+    outline: none;
+}
+
+.reportes-control:focus {
+    border-color: #a1a1aa;
+    box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.05);
+}
+
+.reportes-filter-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    padding: 8px 17px;
+    border: 0;
+    border-radius: 9px;
+    background: #18181b;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   ESTADÍSTICAS
+   ========================================================= */
+
+.reportes-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.reporte-stat {
+    padding: 20px;
+    border: 1px solid #e8e8eb;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.035);
+}
+
+.reporte-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    margin-bottom: 17px;
+    border-radius: 11px;
+    background: #f4f4f5;
+    color: #27272a;
+}
+
+.reporte-stat-value {
+    display: block;
+    margin-bottom: 3px;
+    color: #18181b;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.reporte-stat-label {
+    color: #929298;
+    font-size: 0.66rem;
+}
+
+
+/* =========================================================
+   PANELES
+   ========================================================= */
+
+.reporte-panel {
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #e8e8eb;
+    border-radius: 17px;
+    background: #ffffff;
+    box-shadow: 0 7px 24px rgba(0, 0, 0, 0.04);
+}
+
+.reporte-panel-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid #eeeeef;
+}
+
+.reporte-panel-title {
+    margin: 0;
+    color: #27272a;
+    font-size: 0.87rem;
+    font-weight: 750;
+}
+
+.reporte-panel-subtitle {
+    margin: 3px 0 0;
+    color: #929298;
+    font-size: 0.65rem;
+}
+
+
+/* =========================================================
+   GRÁFICAS
+   ========================================================= */
+
+.reporte-chart {
+    position: relative;
+    height: 310px;
+    padding: 20px;
+}
+
+.reporte-chart canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* =========================================================
+   RESUMEN RANGO
+   ========================================================= */
+
+.reporte-range-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid #eeeeef;
+}
+
+.reporte-range-item {
+    padding: 17px 20px;
+    border-right: 1px solid #eeeeef;
+}
+
+.reporte-range-item:last-child {
+    border-right: 0;
+}
+
+.reporte-range-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #929298;
+    font-size: 0.61rem;
+    font-weight: 650;
+    text-transform: uppercase;
+}
+
+.reporte-range-value {
+    color: #27272a;
+    font-size: 0.82rem;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   PRODUCTOS MÁS VENDIDOS
+   ========================================================= */
+
+.reporte-product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f0f2;
+}
+
+.reporte-product:last-child {
+    border-bottom: 0;
+}
+
+.reporte-product-position {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 31px;
+    height: 31px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #18181b;
+    color: #ffffff;
+    font-size: 0.67rem;
+    font-weight: 750;
+}
+
+.reporte-product-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.reporte-product-name {
+    display: block;
+    overflow: hidden;
+    color: #27272a;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.reporte-product-meta {
+    display: block;
+    margin-top: 2px;
+    color: #929298;
+    font-size: 0.61rem;
+}
+
+.reporte-product-income {
+    color: #18181b;
+    font-size: 0.72rem;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   TABLA
+   ========================================================= */
+
+.reporte-table-wrapper {
+    overflow-x: auto;
+}
+
+.reporte-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+}
+
+.reporte-table th {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e8e8eb;
+    background: #fafafa;
+    color: #71717a;
+    font-size: 0.61rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.reporte-table td {
+    padding: 13px 16px;
+    border-bottom: 1px solid #f0f0f2;
+    color: #52525b;
+    font-size: 0.69rem;
+    vertical-align: middle;
+}
+
+.reporte-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.reporte-factura {
+    color: #27272a;
+    font-weight: 700;
+}
+
+.reporte-total {
+    color: #18181b;
+    font-weight: 750;
+}
+
+.reporte-method {
+    display: inline-flex;
+    padding: 4px 8px;
+    border-radius: 7px;
+    background: #f4f4f5;
+    color: #52525b;
+    font-size: 0.61rem;
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   VACÍO
+   ========================================================= */
+
+.reporte-empty {
+    padding: 40px 20px;
+    color: #929298;
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1199.98px) {
+
+    .reportes-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 767.98px) {
+
+    .reportes-page {
+        padding: 24px 16px;
+    }
+
+    .reportes-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .reportes-print-button {
+        width: 100%;
+    }
+
+    .reportes-filter-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .reportes-filter-button {
+        width: 100%;
+    }
+
+    .reportes-stats,
+    .reporte-range-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .reportes-stats,
+    .reporte-range-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .reporte-range-item {
+        border-right: 0;
+        border-bottom: 1px solid #eeeeef;
+    }
+
+}
+
+
+/* =========================================================
+   IMPRESIÓN / PDF
+   ========================================================= */
+
+@media print {
+
+    .app-sidebar,
+    .app-topbar,
+    .sidebar-overlay,
+    .reportes-filter,
+    .reportes-print-button {
+        display: none !important;
+    }
+
+    .app-main {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .app-content,
+    .reportes-page {
+        padding: 0 !important;
+    }
+
+    .reporte-panel,
+    .reporte-stat {
+        box-shadow: none !important;
+    }
+
+}
