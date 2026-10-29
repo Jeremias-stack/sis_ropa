@@ -1,0 +1,72 @@
+SIS_ROPA - ACTUALIZACION 02
+Usuarios/roles administrados + fotografias por color
+================================================
+
+Esta actualizacion se aplica ENCIMA de SIS_ROPA 2.0 - primera etapa.
+NO es un sistema nuevo. Se basa en los archivos de la primera etapa.
+No subas a Railway antes de probar en XAMPP/local.
+
+PRIMERO
+1. Haz una copia de tu carpeta C:\Users\jobat\sis_ropa.
+2. Respalda la base de datos local pos_ropa en phpMyAdmin (Exportar -> SQL).
+3. Extrae el ZIP en una carpeta temporal.
+
+ARCHIVOS: COPIA EN TU SIS_ROPA ORIGINAL, COMBINANDO CARPETAS
+
+ARCHIVOS NUEVOS (5):
+- app/Http/Controllers/UsuarioController.php
+- app/Models/ProductoImagenColor.php
+- database/migrations/2026_10_22_000003_create_producto_imagenes_colores_table.php
+- resources/views/usuarios/index.blade.php
+- resources/views/usuarios/edit.blade.php
+
+ARCHIVOS A REEMPLAZAR (7):
+- routes/web.php
+- app/Models/Producto.php
+- app/Http/Controllers/ProductoController.php
+- resources/views/layouts/app.blade.php
+- resources/views/productos/_form.blade.php
+- resources/views/productos/show.blade.php
+- resources/views/tienda/index.blade.php
+
+SEGUNDO - SOLO EN LA BASE LOCAL (DB_HOST=127.0.0.1, DB_DATABASE=pos_ropa)
+php artisan optimize:clear
+php artisan migrate:status
+php artisan migrate --pretend
+Revisar la migracion nueva y luego ejecutar:
+php artisan migrate
+php artisan storage:link   (solo si aun no esta creado el enlace)
+
+TERCERO - INICIAR
+Terminal 1: php artisan serve
+Terminal 2: npm run dev
+
+CUARTO - PROBAR
+* Como administrador visita http://127.0.0.1:8000/usuarios.
+  Crea un usuario de prueba con rol cajero; tambien puedes convertir a cajero
+  una cuenta cliente desde 'Editar'.
+* Cierra sesion e inicia como cajero; debe entrar al panel y NO debe poder
+  abrir /usuarios (debe recibir HTTP 403).
+* Desde /registro, un usuario nuevo debe quedar con rol cliente y NO debe
+  tener acceso al dashboard.
+* En /productos/create registra un producto con 2 colores y al menos una talla
+  por color. Abajo veras 'Fotografias por color': sube una foto para cada color.
+* En /productos/{id} podras pulsar los botones de cada color para cambiar la foto.
+* En /tienda, los botones de color tambien pueden cambiar la foto.
+* Comprueba venta de una variante en POS: el stock de otras variantes NO cambia.
+
+DETALLES
+- Una imagen principal opcional + una imagen por color opcional.
+- Cada foto por color se comparte entre TODAS las tallas del color.
+- Las fotografias son JPG/PNG/WebP de maximo 2MB cada una.
+- NO se han implementado carrito ni checkout online en esta actualizacion.
+- El modulo Clientes del POS registra datos para facturacion y NO es igual
+  a una cuenta de acceso de la tabla users (lo uniremos mas adelante).
+- NO ejecutes migrate:fresh, db:wipe ni migrate:rollback sobre tu base de datos.
+
+VALIDACION REALIZADA
+- php -l en controladores/modelos/rutas/migracion.
+- Compilacion de plantillas Blade y php -l sobre PHP generado.
+- php artisan route:list --path=usuarios: cuatro rutas registradas.
+- NO se realizo prueba de migracion ni pruebas end-to-end con MySQL en
+  este entorno. Requiere probar en tu computadora antes de desplegar.

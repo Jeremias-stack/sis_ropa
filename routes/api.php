@@ -4,7 +4,9 @@ use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ClienteApiController;
 use App\Http\Controllers\Api\ProductoApiController;
 use App\Http\Controllers\Api\ReporteApiController;
+use App\Http\Controllers\StripeCheckoutController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
 
 
 /*
@@ -31,7 +33,7 @@ Route::post(
    RUTAS PROTEGIDAS
    ========================================================= */
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', RoleMiddleware::class . ':administrador,cajero'])->group(function () {
 
 
     /* =====================================================
@@ -104,3 +106,6 @@ Route::middleware('auth:sanctum')->group(function () {
     )->name('api.logout');
 
 });
+
+// No utiliza sesión ni CSRF. Se verifica la firma enviada por Stripe.
+Route::post('/pagos/stripe/webhook', [StripeCheckoutController::class, 'webhook'])->name('stripe.webhook');

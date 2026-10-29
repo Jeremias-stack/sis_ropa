@@ -80,15 +80,15 @@
 
                 <div class="weather-temperature-area">
 
-                    @if($clima['icono'])
-
-                        <img
-                            src="https://openweathermap.org/img/wn/{{ $clima['icono'] }}@2x.png"
-                            alt="{{ $clima['descripcion'] }}"
-                            class="weather-icon"
-                        >
-
-                    @endif
+                    @php
+                        $codigoIcono = substr((string) ($clima['icono'] ?? ''), 0, 2);
+                        $simbolo = match ($codigoIcono) {
+                            '01' => '☀️', '02', '03', '04' => '☁️',
+                            '09', '10' => '🌧️', '11' => '⛈️',
+                            '13' => '❄️', '50' => '🌫️', default => '🌤️'
+                        };
+                    @endphp
+                    <span class="weather-icon" role="img" aria-label="{{ $clima['descripcion'] }}" style="font-size:2.7rem;line-height:1;display:inline-block">{{ $simbolo }}</span>
 
 
                     <span class="weather-temperature">
@@ -469,10 +469,7 @@
                         @if($producto->imagen_url)
 
                             <img
-                                src="{{ asset(
-                                    'storage/' .
-                                    $producto->imagen_url
-                                ) }}"
+                                src="{{ \App\Services\ImagenProductoStorage::url($producto->imagen_url) }}"
                                 alt="{{ $producto->nombre }}"
                                 class="dashboard-product-image"
                             >

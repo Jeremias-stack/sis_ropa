@@ -1,0 +1,32 @@
+# EXTENSIÓN opcional de la Actualización 10.
+# No reemplaza el docker-compose.distribuido.yml existente ni sus claves.
+# Se utiliza como segundo archivo -f para agregar un nodo y cambiar la ruta Nginx.
+services:
+  inventory2:
+    build:
+      context: .
+      dockerfile: distributed/docker/service.Dockerfile
+    command: ["php", "-S", "0.0.0.0:8081", "-t", "/srv/inventory", "/srv/inventory/index.php"]
+    environment:
+      DB_HOST: db-master
+      DB_NAME: inventario_db
+      DB_USER: inventario_app
+      DB_PASSWORD: SoloDemoDb_2026!
+      AUTH_URL: http://auth:8083
+      JWT_SECRET: ${JWT_SECRET:?Configura JWT_SECRET}
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?Configura INTERNAL_TOKEN}
+    depends_on:
+      replica-setup:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  gateway:
+    volumes:
+      - ./distributed/nginx/balanceo.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+      - auth
+      - inventory
+      - inventory2
+      - sales
+      - reports

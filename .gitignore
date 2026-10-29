@@ -25,3 +25,14 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Configuraciones privadas
+.env
+.env.*
+!.env.example
+!.env.distribuido.example
+
+# Evidencias y archivos temporales
+/docs/evidencias/
+/vendor/
+/node_modules/

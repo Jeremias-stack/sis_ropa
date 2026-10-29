@@ -14,6 +14,7 @@ class Producto extends Model
         'precio',
         'stock',
         'categoria_id',
+        'marca_id',
         'talla',
         'color',
         'genero',
@@ -32,6 +33,21 @@ class Producto extends Model
     public function categoria()
     {
         return $this->belongsTo(Categoria::class);
+    }
+
+    public function variantes()
+    {
+        return $this->hasMany(ProductoVariante::class);
+    }
+
+    public function imagenesColores()
+    {
+        return $this->hasMany(ProductoImagenColor::class);
+    }
+
+    public function marca()
+    {
+        return $this->belongsTo(Marca::class);
     }
 
     public function detalleVentas()
@@ -54,7 +70,10 @@ class Producto extends Model
     {
         return $query->where(function (Builder $q) use ($termino) {
             $q->where('nombre', 'like', "%{$termino}%")
-                ->orWhere('codigo', 'like', "%{$termino}%");
+                ->orWhere('codigo', 'like', "%{$termino}%")
+                ->orWhereHas('marca', fn ($m) => $m->where('nombre', 'like', "%{$termino}%"))
+                ->orWhereHas('variantes', fn ($v) => $v->whereHas('talla', fn ($t) => $t->where('nombre', 'like', "%{$termino}%"))
+                    ->orWhereHas('color', fn ($c) => $c->where('nombre', 'like', "%{$termino}%")));
         });
     }
 }

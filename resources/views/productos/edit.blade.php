@@ -59,7 +59,7 @@
                         <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-4">
 
                             <img
-                                src="{{ asset('storage/' . $producto->imagen_url) }}"
+                                src="{{ \App\Services\ImagenProductoStorage::url($producto->imagen_url) }}"
                                 alt="{{ $producto->nombre }}"
                                 class="producto-current-image"
                             >

@@ -22,7 +22,7 @@
             </span>
 
             <h1 class="factura-page-title">
-                Factura / Recibo
+                Comprobante de venta
             </h1>
 
             <p class="factura-page-subtitle">
@@ -54,7 +54,7 @@
 
                 <i class="bi bi-printer-fill"></i>
 
-                Imprimir / PDF
+                Guardar como PDF / Imprimir
 
             </button>
 
@@ -98,7 +98,7 @@
 
                 <div class="factura-company-logo">
 
-                    <i class="bi bi-bag-heart-fill"></i>
+                    <img src="{{ asset(config('tienda.logo')) }}" alt="Logotipo de {{ config('tienda.nombre') }}" class="factura-logo-img">
 
                 </div>
 
@@ -106,11 +106,11 @@
                 <div>
 
                     <h2 class="factura-company-name">
-                        POS Ropa
+                        {{ config('tienda.nombre') }}
                     </h2>
 
                     <span class="factura-company-type">
-                        Tienda de Ropa y Accesorios
+                        {{ config('tienda.descripcion') }}
                     </span>
 
                 </div>
@@ -121,7 +121,7 @@
             <div class="factura-number-area">
 
                 <span class="factura-label-small">
-                    No. de factura
+                    No. de comprobante
                 </span>
 
                 <span class="factura-number">
@@ -265,6 +265,9 @@
                                 <span class="factura-product-code">
 
                                     {{ $detalle->producto->codigo ?? '—' }}
+                                    @if($detalle->talla_vendida || $detalle->color_vendido)
+                                        · {{ $detalle->talla_vendida ?? 'Sin talla' }} / {{ $detalle->color_vendido ?? 'Sin color' }}
+                                    @endif
 
                                 </span>
 
@@ -492,8 +495,10 @@
 
         <footer class="factura-footer">
 
-            Gracias por su compra · POS Ropa ·
-            Documento generado automáticamente por el sistema.
+            Gracias por su compra · {{ config('tienda.nombre') }} · {{ config('tienda.direccion') }}
+            @if(config('tienda.telefono')) · Tel. {{ config('tienda.telefono') }} @endif
+            @if(config('tienda.nit')) · NIT: {{ config('tienda.nit') }} @endif
+            <span class="factura-comprobante-aviso">Comprobante interno de venta. No sustituye una factura fiscal FEL autorizada.</span>
 
         </footer>
 

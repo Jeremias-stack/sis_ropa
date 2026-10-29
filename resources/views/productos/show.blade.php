@@ -84,12 +84,14 @@
 
             <div class="col-lg-5">
 
-                <div class="p-4 h-100 d-flex align-items-center justify-content-center bg-light">
+                <div class="p-4 h-100 d-flex flex-column align-items-center justify-content-center bg-light">
 
-                    @if($producto->imagen_url)
+                    @php $fotoPrincipal = $producto->imagen_url ?: $producto->imagenesColores->first()?->ruta; @endphp
+                    @if($fotoPrincipal)
 
                         <img
-                            src="{{ asset('storage/' . $producto->imagen_url) }}"
+                            id="fotoProductoDetalle"
+                            src="{{ \App\Services\ImagenProductoStorage::url($fotoPrincipal) }}"
                             alt="{{ $producto->nombre }}"
                             class="img-fluid rounded-4"
                             style="
@@ -124,7 +126,16 @@
                         </div>
 
                     @endif
-
+                    @if($producto->imagenesColores->isNotEmpty())
+                        <div class="mt-3 d-flex flex-wrap justify-content-center gap-2 w-100">
+                            @if($producto->imagen_url)
+                                <button type="button" class="btn btn-sm btn-outline-secondary cambiar-foto-color" data-foto="{{ \App\Services\ImagenProductoStorage::url($producto->imagen_url) }}">Principal</button>
+                            @endif
+                            @foreach($producto->imagenesColores as $imagenColor)
+                                <button type="button" class="btn btn-sm btn-outline-secondary cambiar-foto-color" data-foto="{{ \App\Services\ImagenProductoStorage::url($imagenColor->ruta) }}">{{ $imagenColor->color?->nombre }}</button>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
 
             </div>
@@ -264,7 +275,7 @@
 
                                 <strong>
 
-                                    {{ $producto->talla ?: 'No aplica' }}
+                                    {{ $producto->variantes->pluck('talla.nombre')->filter()->unique()->implode(', ') ?: 'No aplica' }}
 
                                 </strong>
 
@@ -283,7 +294,7 @@
 
                                 <strong>
 
-                                    {{ $producto->color ?: 'No especificado' }}
+                                    {{ $producto->variantes->pluck('color.nombre')->filter()->unique()->implode(', ') ?: 'No especificado' }}
 
                                 </strong>
 
@@ -333,6 +344,18 @@
 
                     </div>
 
+
+                    <div class="mb-4">
+                        <h3 class="h6 fw-bold">Disponibilidad por talla y color</h3>
+                        <div class="table-responsive"><table class="table table-sm align-middle">
+                            <thead><tr><th>Talla</th><th>Color</th><th class="text-end">Unidades</th></tr></thead>
+                            <tbody>@foreach($producto->variantes as $variante)<tr>
+                                <td>{{ $variante->talla?->nombre ?? 'Sin talla' }}</td>
+                                <td>{{ $variante->color?->nombre ?? 'Sin color' }}</td>
+                                <td class="text-end">{{ $variante->stock }}</td>
+                            </tr>@endforeach</tbody>
+                        </table></div>
+                    </div>
 
                     {{-- =================================================
                          DESCRIPCIÓN
@@ -386,4 +409,12 @@
 
 </div>
 
+<script>
+document.querySelectorAll('.cambiar-foto-color').forEach(boton => {
+    boton.addEventListener('click', () => {
+        const imagen = document.getElementById('fotoProductoDetalle');
+        if (imagen) imagen.src = boton.dataset.foto;
+    });
+});
+</script>
 @endsection

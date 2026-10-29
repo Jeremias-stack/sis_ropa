@@ -263,74 +263,78 @@ document.addEventListener('DOMContentLoaded', () => {
        AGREGAR PRODUCTO
        ===================================================== */
 
+    const variantModalNode = document.getElementById('posVariantModal');
+    const variantModal = variantModalNode && window.bootstrap ? new window.bootstrap.Modal(variantModalNode) : null;
+    const sizeSelector = document.getElementById('posVariantSize');
+    const colorSelector = document.getElementById('posVariantColor');
+    const qtySelector = document.getElementById('posVariantQuantity');
+    const addVariantButton = document.getElementById('posVariantAdd');
+    const availability = document.getElementById('posVariantAvailability');
+    let selectedCard = null;
+    let selectedVariants = [];
+
+    function findVariant() {
+        return selectedVariants.find(v => v.talla === sizeSelector.value && v.color === colorSelector.value);
+    }
+    function refreshAvailability() {
+        const variant = findVariant();
+        const reserved = cart.find(item => item.id === Number(variant?.id))?.quantity || 0;
+        const remaining = Math.max(0, Number(variant?.stock || 0) - reserved);
+        qtySelector.max = String(remaining);
+        availability.textContent = remaining > 0
+            ? `${remaining} unidades disponibles de esta combinación.`
+            : 'No quedan unidades de esta combinación.';
+        addVariantButton.disabled = remaining < 1;
+    }
+    function refreshColors() {
+        const current = colorSelector.value;
+        const colors = [...new Set(selectedVariants.filter(v => v.talla === sizeSelector.value && v.stock > 0).map(v => v.color))];
+        colorSelector.replaceChildren(...colors.map(color => new Option(color, color)));
+        if (colors.includes(current)) colorSelector.value = current;
+        qtySelector.value = '1';
+        refreshAvailability();
+    }
+    sizeSelector?.addEventListener('change', refreshColors);
+    colorSelector?.addEventListener('change', () => { qtySelector.value = '1'; refreshAvailability(); });
+
     const addProduct = (card) => {
-
-        const id =
-            Number(
-                card.dataset.productId
-            );
-
-        const name =
-            card.dataset.productName;
-
-        const code =
-            card.dataset.productCode;
-
-        const price =
-            Number(
-                card.dataset.productPrice
-            );
-
-        const stock =
-            Number(
-                card.dataset.productStock
-            );
-
-
-        const existing =
-            cart.find(
-                item =>
-                    item.id === id
-            );
-
-
-        if (existing) {
-
-            if (
-                existing.quantity >= stock
-            ) {
-
-                alert(
-                    `No hay más existencias disponibles de ${name}.`
-                );
-
-                return;
-
-            }
-
-
-            existing.quantity += 1;
-
-        } else {
-
-            cart.push({
-
-                id,
-                name,
-                code,
-                price,
-                stock,
-                quantity: 1
-
-            });
-
-        }
-
-
-        renderCart();
-
+        selectedCard = card;
+        try { selectedVariants = JSON.parse(card.dataset.variants || '[]'); }
+        catch { selectedVariants = []; }
+        selectedVariants = selectedVariants.filter(v => Number(v.stock) > 0);
+        if (!selectedVariants.length) { alert('Este producto no tiene variantes disponibles.'); return; }
+        const sizes = [...new Set(selectedVariants.map(v => v.talla))];
+        sizeSelector.replaceChildren(...sizes.map(size => new Option(size, size)));
+        qtySelector.value = '1';
+        refreshColors();
+        variantModal?.show();
     };
 
+    addVariantButton?.addEventListener('click', () => {
+        const v = findVariant();
+        if (!v || !selectedCard) return;
+        const quantity = Number(qtySelector.value);
+        const id = Number(v.id);
+        const reserved = cart.find(item => item.id === id)?.quantity || 0;
+        if (!Number.isInteger(quantity) || quantity < 1 || quantity + reserved > Number(v.stock)) {
+            alert('Selecciona una cantidad válida según las existencias.'); return;
+        }
+        const existing = cart.find(item => item.id === id);
+        if (existing) existing.quantity += quantity;
+        else cart.push({
+            id,
+            productId: Number(selectedCard.dataset.productId),
+            name: selectedCard.dataset.productName,
+            code: selectedCard.dataset.productCode,
+            price: Number(selectedCard.dataset.productPrice),
+            stock: Number(v.stock),
+            talla: v.talla,
+            color: v.color,
+            quantity,
+        });
+        renderCart();
+        variantModal?.hide();
+    });
 
     /* =====================================================
        CAMBIAR CANTIDAD
@@ -548,7 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         <span class="pos-cart-item-price">
 
-                            ${escapeHtml(item.code)}
+                            ${escapeHtml(item.talla)} · ${escapeHtml(item.color)} · ${escapeHtml(item.code)}
                             ·
                             Q${money(item.price)}
                             c/u
@@ -636,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     `items[${index}][producto_id]`;
 
                 productInput.value =
-                    item.id;
+                    item.productId;
 
 
                 /* Cantidad */
@@ -658,6 +662,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 hiddenInputs.appendChild(
                     productInput
                 );
+
+                const variantInput = document.createElement('input');
+                variantInput.type = 'hidden';
+                variantInput.name = `items[${index}][variante_id]`;
+                variantInput.value = item.id;
+                hiddenInputs.appendChild(variantInput);
 
                 hiddenInputs.appendChild(
                     quantityInput
@@ -800,20 +810,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productCards.forEach(
                 (card) => {
 
-                    const name =
-                        card.dataset.productName
-                            .toLowerCase();
-
-
-                    const code =
-                        card.dataset.productCode
-                            .toLowerCase();
-
-
-                    const matches =
-                        name.includes(term) ||
-                        code.includes(term);
-
+                    const matches = (card.dataset.productSearch || '').toLowerCase().includes(term);
 
                     card.style.display =
                         matches

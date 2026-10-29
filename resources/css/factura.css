@@ -527,3 +527,16 @@
         break-inside: avoid;
     }
 }
+/* Identidad para el comprobante imprimible / PDF del navegador. */
+.factura-logo-img { width: 54px; height: 54px; display: block; border-radius: 14px; object-fit: contain; }
+.factura-company-logo { background: transparent; }
+.factura-comprobante-aviso { display: block; margin-top: 5px; font-size: .61rem; color: #71717a; }
+@media print {
+    @page { size: A4; margin: 12mm; }
+    .factura-document { break-inside: auto; }
+    .factura-table thead { display: table-header-group; }
+    .factura-table tr { break-inside: avoid; }
+    .factura-company, .factura-info-grid, .factura-bottom, .factura-qr-section { break-inside: avoid; }
+    .factura-logo-img { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .factura-page { animation: none !important; }
+}
