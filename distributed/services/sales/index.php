@@ -74,6 +74,75 @@ if ($posVentasPath === '/api/ventas/pos/resumen' && $_SERVER['REQUEST_METHOD']==
 }
 
 
+
+// Consulta REST para reportes de ventas reales proyectadas por Laravel.
+// Solo lectura: NO descuenta inventario ni registra ventas adicionales.
+if ($posVentasPath === '/api/ventas/pos/detalle' && $_SERVER['REQUEST_METHOD']==='GET') {
+    authenticated(['administrador']); posVentasTables();
+    $desde = (string)($_GET['desde'] ?? '');
+    $hasta = (string)($_GET['hasta'] ?? '');
+    foreach (['desde'=>$desde, 'hasta'=>$hasta] as $campo=>$valor) {
+        if ($valor !== '' && (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $valor)
+            || !checkdate((int)substr($valor,5,2), (int)substr($valor,8,2), (int)substr($valor,0,4)))) {
+            respond(422, ['error'=>"El parámetro $campo debe tener formato YYYY-MM-DD"]);
+        }
+    }
+    if ($desde !== '' && $hasta !== '' && $desde > $hasta) {
+        respond(422, ['error'=>'La fecha desde no puede ser posterior a hasta']);
+    }
+    $where=[]; $args=[];
+    if ($desde !== '') { $where[]='fecha >= ?'; $args[]=$desde.' 00:00:00'; }
+    if ($hasta !== '') { $where[]='fecha <= ?'; $args[]=$hasta.' 23:59:59'; }
+    $condition = $where ? ' WHERE '.implode(' AND ', $where) : '';
+    $q=db()->prepare('SELECT COUNT(*) FROM ventas_pos'.$condition);
+    $q->execute($args); $total=(int)$q->fetchColumn();
+    $q=db()->prepare('SELECT id,numero_factura,usuario_id,total,fecha,lineas_json FROM ventas_pos'.$condition.' ORDER BY fecha DESC,id DESC LIMIT 2000');
+    $q->execute($args);
+    $ventas=[];
+    foreach ($q->fetchAll() as $venta) {
+        $lineas = json_decode((string)$venta['lineas_json'], true);
+        unset($venta['lineas_json']);
+        $venta['lineas'] = is_array($lineas) ? $lineas : [];
+        $ventas[]=$venta;
+    }
+    respond(200, ['fuente'=>'ventas_pos_proyectadas','ventas'=>$ventas,'total_registros'=>$total,'truncado'=>$total>2000]);
+}
+
+// Factura REST del servicio de Ventas. Primero consulta POS real proyectado y,
+// si no existe, su base de ventas distribuida de demostración.
+if (preg_match('#^/api/ventas/(\d+)/factura$#', $posVentasPath, $facturaPath)
+    && $_SERVER['REQUEST_METHOD']==='GET') {
+    authenticated(); posVentasTables();
+    $id=(int)$facturaPath[1];
+    if ($id < 1) respond(404, ['error'=>'Factura no encontrada']);
+    $q=db()->prepare('SELECT id,numero_factura,usuario_id,total,fecha,lineas_json FROM ventas_pos WHERE id=?');
+    $q->execute([$id]);
+    $venta=$q->fetch();
+    if ($venta) {
+        $lineas=json_decode((string)$venta['lineas_json'],true);
+        respond(200, [
+            'fuente'=>'proyeccion_pos_laravel', 'numero_factura'=>$venta['numero_factura'],
+            'venta_id'=>(int)$venta['id'],'fecha'=>$venta['fecha'],
+            'total'=>(float)$venta['total'],
+            'iva'=>null, // No se proyecta un desglose impositivo verificable.
+            'nota_iva'=>'Consultar desglose de IVA y descuentos en la factura original de Laravel.',
+            'lineas'=>is_array($lineas)?$lineas:[],
+            'qr_url'=>'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='.rawurlencode('SIS_ROPA POS: '.$venta['numero_factura']),
+        ]);
+    }
+    $q=db()->prepare('SELECT id,usuario_id,variante_id,cantidad,subtotal,iva_incluido,created_at FROM ventas WHERE id=?');
+    $q->execute([$id]); $venta=$q->fetch();
+    if (!$venta) respond(404, ['error'=>'Factura no encontrada']);
+    respond(200, [
+        'fuente'=>'venta_distribuida_demo', 'numero_factura'=>'DIST-'.str_pad((string)$id,6,'0',STR_PAD_LEFT),
+        'venta_id'=>(int)$id,'fecha'=>$venta['created_at'], 'total'=>(float)$venta['subtotal'],
+        'iva_incluido'=>(float)$venta['iva_incluido'],
+        'lineas'=>[['variante_id'=>(int)$venta['variante_id'],'cantidad'=>(int)$venta['cantidad'],'subtotal'=>(float)$venta['subtotal']]],
+        'qr_url'=>'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='.rawurlencode('SIS_ROPA DIST: '.$id),
+    ]);
+}
+
+
 $path = endpoint();
 if ($path === '/health') respond(200, ['servicio' => 'ventas', 'estado' => 'ok']);
 if ($path === '/api/ventas' && $_SERVER['REQUEST_METHOD'] === 'GET') {

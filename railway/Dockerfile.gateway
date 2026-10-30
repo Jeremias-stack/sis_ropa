@@ -1,0 +1,5 @@
+FROM nginx:1.27-alpine
+COPY railway/gateway.conf.template /etc/nginx/templates/default.conf.template
+# Template envsubst substitutes only the explicit upstream variables.
+ENV NGINX_ENVSUBST_FILTER="^(APP_HOST|AUTH_HOST|INVENTORY_HOST|SALES_HOST|REPORTS_HOST)$"
+EXPOSE 80
