@@ -36,7 +36,9 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        return auth()->user()->rol === 'cliente'
+            ? redirect()->route('tienda.index')
+            : redirect()->intended(route('dashboard'));
     }
 
     public function showRegister()
@@ -56,7 +58,7 @@ class AuthController extends Controller
             'nombre' => $datos['nombre'],
             'correo' => $datos['correo'],
             'password' => Hash::make($datos['password']),
-            'rol' => 'cajero',
+            'rol' => 'cliente',
         ]);
 
         Auth::login($usuario);
@@ -64,8 +66,8 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()
-            ->route('dashboard')
-            ->with('success', 'Usuario registrado correctamente.');
+            ->route('tienda.index')
+            ->with('success', 'Tu cuenta de cliente está lista.');
     }
 
     public function logout(Request $request)

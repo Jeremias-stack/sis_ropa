@@ -139,6 +139,8 @@
                             data-product-code="{{ $producto->codigo }}"
                             data-product-price="{{ $producto->precio }}"
                             data-product-stock="{{ $producto->stock }}"
+                            data-product-search="{{ $producto->nombre }} {{ $producto->codigo }} {{ $producto->marca?->nombre }} {{ $producto->categoria?->nombre }} {{ $producto->variantes->map(fn($v) => ($v->talla?->nombre ?? '') . ' ' . ($v->color?->nombre ?? ''))->join(' ') }}"
+                            data-variants="{{ $producto->variantes->map(fn($v) => ['id'=>$v->id,'talla'=>$v->talla?->nombre ?? 'Sin talla','color'=>$v->color?->nombre ?? 'Sin color','stock'=>$v->stock])->toJson() }}"
                             role="button"
                             tabindex="0"
                         >
@@ -148,7 +150,7 @@
                                 @if($producto->imagen_url)
 
                                     <img
-                                        src="{{ asset('storage/' . $producto->imagen_url) }}"
+                                        src="{{ \App\Services\ImagenProductoStorage::url($producto->imagen_url) }}"
                                         alt="{{ $producto->nombre }}"
                                         class="pos-product-image"
                                     >
@@ -495,6 +497,19 @@
 
     </form>
 
+</div>
+<!-- Selector simple de talla y color antes de añadir al carrito. -->
+<div class="modal fade" id="posVariantModal" tabindex="-1" aria-labelledby="posVariantTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 rounded-4 shadow">
+    <div class="modal-header"><h2 class="modal-title h5 fw-bold" id="posVariantTitle">Selecciona la variante</h2><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+    <div class="modal-body"><p class="text-muted small">Selecciona la talla, el color y la cantidad.</p>
+      <div class="row g-3"><div class="col-6"><label class="form-label" for="posVariantSize">Talla</label><select class="form-select" id="posVariantSize"></select></div>
+      <div class="col-6"><label class="form-label" for="posVariantColor">Color</label><select class="form-select" id="posVariantColor"></select></div>
+      <div class="col-12"><label class="form-label" for="posVariantQuantity">Cantidad</label><input class="form-control" id="posVariantQuantity" type="number" min="1" value="1"></div></div>
+      <div class="small mt-3" id="posVariantAvailability"></div>
+    </div>
+    <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-dark" type="button" id="posVariantAdd">Agregar al carrito</button></div>
+  </div></div>
 </div>
 
 @endsection

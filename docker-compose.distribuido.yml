@@ -1,0 +1,144 @@
+name: sis-ropa-distribuido
+services:
+  gateway:
+    image: nginx:1.27-alpine
+    ports:
+      - "127.0.0.1:8090:80"
+    volumes:
+      - ./distributed/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on: [app, auth, inventory, sales, reports]
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: distributed/docker/laravel.Dockerfile
+    environment:
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY:-}
+      OPENWEATHER_LAT: ${OPENWEATHER_LAT:-15.0306}
+      OPENWEATHER_LON: ${OPENWEATHER_LON:--91.1487}
+      OPENWEATHER_LOCATION: "${OPENWEATHER_LOCATION:-Santa Cruz del Quiché}"
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      APP_NAME: SIS_ROPA
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: ${APP_KEY:?Configura APP_KEY en .env.distribuido}
+      APP_URL: http://127.0.0.1:8090
+      DB_CONNECTION: mysql
+      DB_HOST: db-master
+      DB_PORT: "3306"
+      DB_DATABASE: pos_ropa
+      DB_USERNAME: laravel_app
+      DB_PASSWORD: SoloDemoDb_2026!
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      # Laravel es la fuente real de existencias; los servicios reciben proyecciones.
+      DISTRIBUTED_SYNC_ENABLED: "true"
+      DISTRIBUTED_INVENTORY_URL: http://inventory:8081
+      DISTRIBUTED_SALES_URL: http://sales:8082
+      DISTRIBUTED_INTERNAL_TOKEN: ${INTERNAL_TOKEN:?Configura INTERNAL_TOKEN}
+    depends_on:
+      replica-setup: {condition: service_completed_successfully}
+    restart: unless-stopped
+
+  auth:
+    build: {context: ., dockerfile: distributed/docker/service.Dockerfile}
+    command: ["php", "-S", "0.0.0.0:8083", "-t", "/srv/auth", "/srv/auth/index.php"]
+    environment:
+      DB_HOST: db-master
+      DB_NAME: auth_db
+      DB_USER: auth_app
+      DB_PASSWORD: SoloDemoDb_2026!
+      JWT_SECRET: ${JWT_SECRET:?Configura JWT_SECRET}
+    depends_on:
+      replica-setup: {condition: service_completed_successfully}
+
+  inventory:
+    build: {context: ., dockerfile: distributed/docker/service.Dockerfile}
+    command: ["php", "-S", "0.0.0.0:8081", "-t", "/srv/inventory", "/srv/inventory/index.php"]
+    environment:
+      DB_HOST: db-master
+      DB_NAME: inventario_db
+      DB_USER: inventario_app
+      DB_PASSWORD: SoloDemoDb_2026!
+      AUTH_URL: http://auth:8083
+      JWT_SECRET: ${JWT_SECRET:?Configura JWT_SECRET}
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?Configura INTERNAL_TOKEN}
+    depends_on:
+      replica-setup: {condition: service_completed_successfully}
+
+  sales:
+    build: {context: ., dockerfile: distributed/docker/service.Dockerfile}
+    command: ["php", "-S", "0.0.0.0:8082", "-t", "/srv/sales", "/srv/sales/index.php"]
+    environment:
+      DB_HOST: db-master
+      DB_NAME: ventas_db
+      DB_USER: ventas_app
+      DB_PASSWORD: SoloDemoDb_2026!
+      AUTH_URL: http://auth:8083
+      INVENTORY_URL: http://inventory:8081
+      JWT_SECRET: ${JWT_SECRET:?Configura JWT_SECRET}
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN:?Configura INTERNAL_TOKEN}
+    depends_on:
+      replica-setup: {condition: service_completed_successfully}
+
+  reports:
+    build: {context: ., dockerfile: distributed/docker/service.Dockerfile}
+    command: ["php", "-S", "0.0.0.0:8084", "-t", "/srv/reports", "/srv/reports/index.php"]
+    environment:
+      DB_HOST: db-master
+      DB_NAME: reportes_db
+      DB_USER: reportes_app
+      DB_PASSWORD: SoloDemoDb_2026!
+      AUTH_URL: http://auth:8083
+      INVENTORY_URL: http://inventory:8081
+      SALES_URL: http://sales:8082
+      JWT_SECRET: ${JWT_SECRET:?Configura JWT_SECRET}
+    depends_on:
+      replica-setup: {condition: service_completed_successfully}
+
+  db-master:
+    image: mariadb:11.4
+    command: ["--server-id=1", "--log-bin=mysql-bin", "--binlog-format=ROW", "--log-slave-updates=ON"]
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Configura DB_ROOT_PASSWORD}
+    volumes:
+      - master_data:/var/lib/mysql
+      - ./distributed/db/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$$MARIADB_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  db-replica:
+    image: mariadb:11.4
+    command: ["--server-id=2", "--relay-log=replica-relay", "--read-only=ON"]
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Configura DB_ROOT_PASSWORD}
+    volumes:
+      - replica_data:/var/lib/mysql
+      - ./distributed/db/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$$MARIADB_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  replica-setup:
+    image: mariadb:11.4
+    environment:
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Configura DB_ROOT_PASSWORD}
+    entrypoint: ["sh", "/scripts/setup-replication.sh"]
+    volumes:
+      - ./distributed/db/setup-replication.sh:/scripts/setup-replication.sh:ro
+    depends_on:
+      db-master: {condition: service_healthy}
+      db-replica: {condition: service_healthy}
+    restart: "no"
+
+volumes:
+  master_data:
+  replica_data:

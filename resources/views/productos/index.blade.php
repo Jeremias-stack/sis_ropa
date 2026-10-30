@@ -238,7 +238,7 @@
                                     @if($producto->imagen_url)
 
                                         <img
-                                            src="{{ asset('storage/' . $producto->imagen_url) }}"
+                                            src="{{ \App\Services\ImagenProductoStorage::url($producto->imagen_url) }}"
                                             alt="{{ $producto->nombre }}"
                                             class="producto-miniatura"
                                         >
@@ -261,33 +261,10 @@
                                         </div>
 
 
-                                        @if($producto->talla || $producto->color)
-
-                                            <div class="producto-detalle">
-
-                                                @if($producto->talla)
-
-                                                    Talla {{ $producto->talla }}
-
-                                                @endif
-
-
-                                                @if($producto->talla && $producto->color)
-
-                                                    •
-
-                                                @endif
-
-
-                                                @if($producto->color)
-
-                                                    {{ $producto->color }}
-
-                                                @endif
-
-                                            </div>
-
-                                        @endif
+                                        <div class="producto-detalle">
+                                            {{ $producto->marca?->nombre ?? 'Sin marca' }}
+                                            · {{ $producto->variantes->count() }} variante(s)
+                                        </div>
 
                                     </div>
 
@@ -517,7 +494,7 @@
                     @if($producto->imagen_url)
 
                         <img
-                            src="{{ asset('storage/' . $producto->imagen_url) }}"
+                            src="{{ \App\Services\ImagenProductoStorage::url($producto->imagen_url) }}"
                             alt="{{ $producto->nombre }}"
                             class="producto-miniatura"
                         >
@@ -654,14 +631,14 @@
 
                         <span class="producto-mobile-value">
 
-                            {{ $producto->talla ?: 'No aplica' }}
+                            {{ $producto->variantes->pluck('talla.nombre')->filter()->unique()->implode(', ') ?: 'No aplica' }}
 
                         </span>
 
                     </div>
 
 
-                    @if($producto->color)
+                    @if($producto->variantes->pluck('color.nombre')->filter()->isNotEmpty())
 
                         <div class="producto-mobile-field">
 
@@ -671,7 +648,7 @@
 
                             <span class="producto-mobile-value">
 
-                                {{ $producto->color }}
+                                {{ $producto->variantes->pluck('color.nombre')->filter()->unique()->implode(', ') }}
 
                             </span>
 

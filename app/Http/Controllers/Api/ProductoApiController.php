@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
+use App\Models\Talla;
+use App\Models\Color;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +21,7 @@ class ProductoApiController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Producto::with('categoria');
+        $query = Producto::with(['categoria', 'marca', 'variantes.talla', 'variantes.color']);
 
 
         /*
@@ -93,7 +96,7 @@ class ProductoApiController extends Controller
      */
     public function show(Producto $producto)
     {
-        $producto->load('categoria');
+        $producto->load(['categoria', 'marca', 'variantes.talla', 'variantes.color']);
 
 
         return response()->json([
@@ -222,10 +225,19 @@ class ProductoApiController extends Controller
                 : true;
 
 
-        $producto = Producto::create($datos);
+        // Compatibilidad con clientes antiguos de la API: se crea una variante única.
+        $producto = DB::transaction(function () use ($datos) {
+            $producto = Producto::create($datos);
+            $producto->variantes()->create([
+                'talla_id' => !empty($datos['talla']) ? Talla::firstOrCreate(['nombre' => $datos['talla']])->id : null,
+                'color_id' => !empty($datos['color']) ? Color::firstOrCreate(['nombre' => $datos['color']])->id : null,
+                'stock' => $datos['stock'],
+            ]);
+            return $producto;
+        });
 
 
-        $producto->load('categoria');
+        $producto->load(['categoria', 'marca', 'variantes.talla', 'variantes.color']);
 
 
         return response()->json([
@@ -363,10 +375,29 @@ class ProductoApiController extends Controller
         }
 
 
-        $producto->update($datos);
+        // No permitir que un cliente REST cambie solo el total cuando hay múltiples
+        // variantes: eso desajustaría las existencias reales de tallas y colores.
+        if ($producto->variantes()->count() > 1 && (int) $datos['stock'] !== (int) $producto->stock) {
+            return response()->json(['ok' => false, 'message' => 'Edita el inventario por talla/color desde el panel de productos.'], 422);
+        }
+        DB::transaction(function () use ($producto, $datos) {
+            $producto = Producto::whereKey($producto->id)->lockForUpdate()->firstOrFail();
+            $variantes = $producto->variantes()->lockForUpdate()->get();
+            if ($variantes->count() === 1) {
+                $variantes[0]->update([
+                    'stock' => $datos['stock'],
+                    'talla_id' => !empty($datos['talla']) ? Talla::firstOrCreate(['nombre' => $datos['talla']])->id : null,
+                    'color_id' => !empty($datos['color']) ? Color::firstOrCreate(['nombre' => $datos['color']])->id : null,
+                ]);
+            }
+            if ($variantes->count() > 1) {
+                unset($datos['talla'], $datos['color']);
+            }
+            $producto->update($datos);
+        });
 
 
-        $producto->load('categoria');
+        $producto->load(['categoria', 'marca', 'variantes.talla', 'variantes.color']);
 
 
         return response()->json([

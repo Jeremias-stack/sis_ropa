@@ -171,6 +171,14 @@
             <nav class="sidebar-nav">
 
 
+                {{-- Catálogos: tallas, colores, marcas y categorías --}}
+                @if(in_array(auth()->user()->rol, ['administrador', 'cajero']))
+                <a href="{{ route('catalogos.index') }}" class="sidebar-link {{ request()->routeIs('catalogos.*') ? 'active' : '' }}">
+                    <span class="sidebar-icon"><i class="bi bi-tags-fill"></i></span>
+                    <span class="sidebar-link-text">Catálogos</span>
+                </a>
+                @endif
+
                 {{-- Clientes --}}
                 <a
                     href="{{ route('clientes.index') }}"
@@ -204,6 +212,30 @@
 
                 </a>
 
+
+                {{-- Compras y proveedores: solamente Administrador --}}
+                @if(auth()->user()->esAdministrador())
+                    <a href="{{ route('proveedores.index') }}" class="sidebar-link {{ request()->routeIs('proveedores.*') ? 'active' : '' }}">
+                        <span class="sidebar-icon"><i class="bi bi-truck"></i></span>
+                        <span class="sidebar-link-text">Proveedores</span>
+                    </a>
+                    <a href="{{ route('compras.index') }}" class="sidebar-link {{ request()->routeIs('compras.*') ? 'active' : '' }}">
+                        <span class="sidebar-icon"><i class="bi bi-box-arrow-in-down"></i></span>
+                        <span class="sidebar-link-text">Compras</span>
+                    </a>
+                    <a href="{{ route('pedidos.index') }}" class="sidebar-link {{ request()->routeIs('pedidos.*') ? 'active' : '' }}">
+                        <span class="sidebar-icon"><i class="bi bi-bag-check"></i></span>
+                        <span class="sidebar-link-text">Pedidos en línea</span>
+                    </a>
+                @endif
+
+                {{-- Usuarios y roles: solamente Administrador --}}
+                @if(auth()->user()->esAdministrador())
+                    <a href="{{ route('usuarios.index') }}" class="sidebar-link {{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
+                        <span class="sidebar-icon"><i class="bi bi-person-gear"></i></span>
+                        <span class="sidebar-link-text">Usuarios y roles</span>
+                    </a>
+                @endif
 
                 {{-- Reportes: solo Administrador --}}
                 @if(auth()->user()->esAdministrador())
@@ -399,6 +431,26 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 ></script>
 
+@auth
+
+<script>
+    window.addEventListener('pageshow', function (event) {
+
+        /*
+         * Si el navegador restauró una pantalla anterior
+         * desde memoria, volvemos a consultar al servidor.
+         *
+         * Si la sesión ya fue cerrada, middleware auth
+         * enviará automáticamente al Login.
+         */
+        if (event.persisted) {
+            window.location.reload();
+        }
+
+    });
+</script>
+
+@endauth
 
 </body>
 

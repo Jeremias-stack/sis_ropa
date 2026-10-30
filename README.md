@@ -956,6 +956,37 @@ Desarrollado con fines académicos utilizando tecnologías web, una base de dato
 
 ---
 
+# 🌐 Sistema publicado
+
+El sistema se encuentra desplegado públicamente en Railway.
+
+### URL pública
+
+https://sisropa-production.up.railway.app
+
+La aplicación utiliza:
+
+- Laravel en producción.
+- Base de datos MySQL en Railway.
+- HTTPS.
+- Almacenamiento persistente para imágenes.
+- OpenWeather API.
+- QR Code API.
+- Laravel Sanctum para la API REST.
+
+---
+
+# 👤 Usuarios de demostración
+
+## Administrador
+
+```text
+Correo: admin@posropa.test
+Contraseña: Admin123!
+
+Correo: cajero@posropa.test
+Contraseña: Cajero123!
+
 ## Estado del proyecto
 
 Actualmente el sistema cuenta con:
@@ -966,6 +997,7 @@ Actualmente el sistema cuenta con:
 - [x] Gestión de productos
 - [x] Control de inventario
 - [x] Imágenes de productos
+- [x] Persistencia de imágenes
 - [x] Alertas de stock
 - [x] Gestión de clientes
 - [x] Punto de venta
@@ -979,10 +1011,4 @@ Actualmente el sistema cuenta con:
 - [x] API REST
 - [x] Laravel Sanctum
 - [x] Diseño responsive
-- [ ] Despliegue en hosting público
-
----
-
-# 📄 Licencia
-
-Proyecto desarrollado con fines educativos y académicos.
+- [x] Despliegue en hosting público
