@@ -44,18 +44,18 @@
                 <div class="auth-showcase-main">
 
                     <span class="auth-badge">
-                        NUEVO USUARIO
+                        NUEVO CLIENTE
                     </span>
 
                     <h1>
                         Crea tu cuenta
-                        <span>y comienza a trabajar.</span>
+                        <span>y comienza a comprar.</span>
                     </h1>
 
                     <p>
-                        Regístrate para acceder a las herramientas
-                        necesarias para gestionar clientes, consultar
-                        productos y realizar ventas.
+                        Regístrate para explorar nuestros productos,
+                        guardar tus favoritos y realizar compras
+                        desde la tienda en línea.
                     </p>
 
 
@@ -72,11 +72,11 @@
                             <div>
 
                                 <strong>
-                                    Cuenta de Cajero
+                                    Cuenta de Cliente
                                 </strong>
 
                                 <small>
-                                    Acceso únicamente a funciones autorizadas
+                                    Acceso al catálogo, carrito y tus pedidos
                                 </small>
 
                             </div>
@@ -93,11 +93,11 @@
                             <div>
 
                                 <strong>
-                                    Registra ventas
+                                    Compra en línea
                                 </strong>
 
                                 <small>
-                                    Utiliza el punto de venta del sistema
+                                    Elige tus productos y realiza tu pedido
                                 </small>
 
                             </div>
@@ -473,12 +473,12 @@
                         <div>
 
                             <strong>
-                                Perfil de Cajero
+                                Perfil de Cliente
                             </strong>
 
                             <span>
                                 Las cuentas creadas desde este formulario
-                                reciben automáticamente permisos de Cajero.
+                                reciben automáticamente el rol de Cliente.
                             </span>
 
                         </div>
